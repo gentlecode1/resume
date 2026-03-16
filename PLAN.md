@@ -1,26 +1,33 @@
 # Plan: Portfolio Agent MVP
 
 ## Qué es
-Un chat embebido en tu resume web donde recruiters pueden preguntar sobre ti como candidato. El agente responde con dos fuentes de conocimiento:
-1. **Entrevista personal** — tu filosofía técnica, motivaciones, decisiones de diseño, preferencias, soft skills
-2. **RAG de tu código** — conocimiento real de los repos donde eres autor/co-autor (sin mostrar código)
+Un producto con dos caras:
+1. **TUI para el dev** — CLI donde te entrevistan, indexas repos, y despliegas
+2. **TUI para el recruiter** — web con estética de terminal donde el recruiter pregunta y el agente responde en primera persona, respaldado por tu código real
 
 ## Arquitectura
 
 ```
-[Tu web HTML] → [Chat widget JS] → [Cloudflare Worker API] → [Claude]
-                                            ↑
-                                  ┌─────────┴─────────┐
-                                  │                    │
-                          [Vectorize:            [Entrevista:
-                           embeddings             contexto personal
-                           de tu código]          en primera persona]
+DEV SIDE (CLI):                         RECRUITER SIDE (Web TUI):
+
+$ npx portfolio-agent                   https://javier.dev (o similar)
+┌──────────────────────┐                ┌──────────────────────────────┐
+│ > Entrevista         │                │ $ ask me anything_           │
+│   Indexar repos      │──deploy──→     │                              │
+│   Deploy             │                │ > Prefiero un enfoque        │
+│   Config             │                │   funcional al state...      │
+└──────────────────────┘                └──────────────────────────────┘
+        │                                          │
+        ▼                                          ▼
+  profile.json                           Cloudflare Worker + Claude
+  + embeddings ──────────────────────→         ↑
+                                        [Vectorize + profile.json]
 ```
 
 ## Fuentes de conocimiento
 
 ### Fuente 1: Entrevista al candidato
-Una sesión estructurada donde Claude te entrevista sobre:
+Sesión interactiva en la TUI donde Claude te entrevista sobre:
 - **Decisiones técnicas** — ¿por qué elegiste X sobre Y?
 - **Filosofía** — ¿cómo abordas arquitectura, testing, refactoring?
 - **Liderazgo** — ¿cómo gestionas equipo, mentoring, conflictos técnicos?
@@ -28,74 +35,94 @@ Una sesión estructurada donde Claude te entrevista sobre:
 - **Soft skills** — comunicación, colaboración con UX/producto
 - **Opiniones** — estado del frontend, IA en desarrollo, etc.
 
-El resultado es un documento estructurado que se inyecta como contexto base en cada conversación con recruiters.
+El resultado es `profile.json`, contexto base del agente.
 
 ### Fuente 2: RAG del código
-Indexación de tus repos filtrada por autoría (`git blame`), convertida en descripciones semánticas (no código literal), almacenada como embeddings en Vectorize.
+Indexación de repos locales filtrada por autoría (`git blame`), convertida en descripciones semánticas (no código literal), almacenada como embeddings en Vectorize.
 
 ## Pasos de implementación
 
-### Paso 0: Entrevista personal
-- Script/sesión interactiva donde Claude te hace preguntas estructuradas
-- Tú respondes en lenguaje natural
-- Se genera un documento `profile.json` con tu contexto personal
-- Este documento se usa como system prompt base del agente
+### Paso 1: TUI del dev (CLI)
+- Menú principal con opciones: Entrevista, Indexar, Deploy, Config
+- Construido con Ink (React para terminal) o similar
+- Flujo guiado paso a paso
 
-**Output:** `profile.json` con tu conocimiento en primera persona
+### Paso 2: Entrevista interactiva en TUI
+- Claude te hace preguntas una a una en el terminal
+- Tú respondes en texto libre
+- Al terminar, genera `profile.json`
+- Se puede re-ejecutar para actualizar respuestas
 
-### Paso 1: Script de indexación de código
-- Script Node.js que recorre repos locales
-- Usa `git blame` para filtrar solo líneas donde eres autor
-- Agrupa el código en chunks con contexto (archivo, función, repo)
-- Genera descripciones/resúmenes de cada chunk (no código literal)
-- Genera embeddings con la API de Cloudflare AI (`@cf/baai/bge-base-en-v1.5`)
-- Sube los embeddings a Cloudflare Vectorize
+**Output:** `profile.json`
 
-**Output:** Base de vectores con tu conocimiento técnico indexado
+### Paso 3: Indexación de repos
+- Seleccionas carpetas de repos locales
+- `git blame` filtra por tu autoría
+- Genera descripciones semánticas de cada chunk
+- Genera embeddings con Cloudflare AI
+- Sube a Vectorize
+- Barra de progreso en la TUI
 
-### Paso 2: Cloudflare Worker (API del agente)
-- Endpoint `POST /api/chat` que recibe la pregunta del recruiter
-- Busca en Vectorize los chunks más relevantes
-- Construye el prompt con:
-  - `profile.json` como contexto base (quién eres, cómo piensas)
-  - Tu CV como referencia factual
-  - Los chunks relevantes del RAG (descripciones, no código)
-  - Instrucciones: representarte fielmente, nunca mostrar código fuente
-- Llama a Claude API y devuelve la respuesta en streaming
+**Output:** Embeddings en Vectorize
 
-### Paso 3: Chat widget en tu web
-- Componente JS mínimo embebido en `index.html`
-- Caja de chat flotante (esquina inferior derecha)
-- Envía preguntas al Worker, muestra respuestas en streaming
-- Estilo consistente con tu diseño actual (Commit Mono, colores)
+### Paso 4: Cloudflare Worker (API del agente)
+- Endpoint `POST /api/chat` — recibe pregunta, devuelve respuesta en streaming
+- Busca chunks relevantes en Vectorize
+- Prompt: `profile.json` + CV + chunks del RAG
+- Claude responde en primera persona
+- Endpoint `GET /` — sirve la web TUI del recruiter
 
-### Paso 4: Prompt engineering
-- System prompt que combina entrevista + CV + RAG
-- **El agente responde en primera persona** — habla como si fueras tú
-- Cuando el recruiter pregunta algo técnico, respalda con evidencia del código
-- Tono profesional pero cercano, coherente con tu personalidad
-- Respuestas concisas y relevantes para recruiters
-- Disclaimer claro de que es un agente IA representándote, no tú en tiempo real
+### Paso 5: Web TUI para recruiters
+- Página web con estética de terminal (fondo oscuro, monospace, cursor)
+- El recruiter escribe preguntas como comandos
+- Respuestas en streaming simulando output de terminal
+- Commit Mono como font
+- Disclaimer: "Este es un agente IA que me representa"
+- Responsive (funciona en móvil también)
 
-## Ejemplo de interacción
+### Paso 6: Deploy desde la TUI
+- `Deploy` en el menú sube el Worker a Cloudflare
+- Muestra la URL final
+- El dev la comparte con recruiters
 
-> **Recruiter:** ¿Por qué elegiste Signals en vez de NgRx?
-> **Agente:** Prefiero un enfoque funcional al state management. Con NgRx en proyectos anteriores vi que el boilerplate no justificaba el beneficio en apps medianas. Con Signals conseguí estado predecible y testable con menos complejidad — y además facilita que agentes de IA generen código correcto con TDD.
+### Paso 7: Prompt engineering
+- System prompt en primera persona
+- Combina entrevista + CV + RAG
+- Tono coherente con la personalidad del dev
+- Nunca muestra código fuente
+- Disclaimer claro de que es IA
 
-> **Recruiter:** ¿Tienes experiencia liderando equipos?
-> **Agente:** Sí. Como Tech Lead en YouForce llevo las decisiones técnicas del frontend, incluyendo la migración a zoneless architecture y la creación del design system. Mi estilo de liderazgo se orienta a crear abstracciones que den autonomía al equipo — prefiero diseñar patrones claros a hacer code review línea por línea.
+## Ejemplo de interacción (recruiter web TUI)
+
+```
+$ who are you
+> Soy Javier Jiménez, Technical Lead en YouForce by Visma.
+  Diseño las abstracciones que conectan dominio de negocio
+  con interfaz de usuario.
+
+$ experience with microfrontends
+> Arquitecté el sistema de microfrontends en YouForce —
+  web components con Stencil y Shadow DOM para encapsulación
+  de estilos y deploys independientes.
+
+$ why signals over ngrx
+> Prefiero un enfoque funcional. Con NgRx el boilerplate no
+  justificaba el beneficio en apps medianas. Signals me dio
+  estado predecible y testable con menos complejidad.
+```
 
 ## Stack técnico
-- **Entrevista:** Script interactivo + Claude API → `profile.json`
+- **TUI dev:** Node.js + Ink (React para terminal)
+- **Entrevista:** Claude API (Anthropic SDK)
 - **Indexación:** Node.js + git blame + Cloudflare AI API
 - **Backend:** Cloudflare Worker (TypeScript)
 - **Vector DB:** Cloudflare Vectorize
 - **LLM:** Claude API (Anthropic)
-- **Frontend:** Vanilla JS (widget de chat en tu HTML existente)
+- **Web TUI recruiter:** HTML + CSS + Vanilla JS (estética terminal)
 
 ## Fuera de scope (para después)
 - OAuth con GitHub/GitLab (multi-usuario)
 - Dashboard para gestionar repos
 - Múltiples candidatos
 - Billing/Stripe
-- Entrevista guiada automática para nuevos usuarios
+- `npx create-portfolio-agent` para onboarding
