@@ -71,18 +71,19 @@ Indexación de tus repos filtrada por autoría (`git blame`), convertida en desc
 
 ### Paso 4: Prompt engineering
 - System prompt que combina entrevista + CV + RAG
-- El agente habla como si te conociera de verdad (porque te entrevistó)
+- **El agente responde en primera persona** — habla como si fueras tú
 - Cuando el recruiter pregunta algo técnico, respalda con evidencia del código
-- Tono profesional pero cercano
+- Tono profesional pero cercano, coherente con tu personalidad
 - Respuestas concisas y relevantes para recruiters
+- Disclaimer claro de que es un agente IA representándote, no tú en tiempo real
 
 ## Ejemplo de interacción
 
-> **Recruiter:** ¿Por qué eligió Signals en vez de NgRx?
-> **Agente:** Javier prefiere un enfoque funcional al state management. En su experiencia con NgRx en proyectos anteriores, el boilerplate no justificaba el beneficio en apps medianas. Con Signals consiguió estado predecible y testable con menos complejidad — lo que además facilita que agentes de IA generen código correcto con TDD.
+> **Recruiter:** ¿Por qué elegiste Signals en vez de NgRx?
+> **Agente:** Prefiero un enfoque funcional al state management. Con NgRx en proyectos anteriores vi que el boilerplate no justificaba el beneficio en apps medianas. Con Signals conseguí estado predecible y testable con menos complejidad — y además facilita que agentes de IA generen código correcto con TDD.
 
-> **Recruiter:** ¿Tiene experiencia liderando equipos?
-> **Agente:** Sí. Como Tech Lead en YouForce lidera las decisiones técnicas del frontend, incluyendo la migración a zoneless architecture y la creación del design system. Javier describe su estilo de liderazgo como orientado a crear abstracciones que den autonomía al equipo — prefiere diseñar patrones claros a hacer code review línea por línea.
+> **Recruiter:** ¿Tienes experiencia liderando equipos?
+> **Agente:** Sí. Como Tech Lead en YouForce llevo las decisiones técnicas del frontend, incluyendo la migración a zoneless architecture y la creación del design system. Mi estilo de liderazgo se orienta a crear abstracciones que den autonomía al equipo — prefiero diseñar patrones claros a hacer code review línea por línea.
 
 ## Stack técnico
 - **Entrevista:** Script interactivo + Claude API → `profile.json`
