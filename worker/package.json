@@ -1,12 +1,22 @@
 {
-  "name": "worker",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "portfolio-agent-worker",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "hono": "^4.12.8"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260316.1",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.73.0"
+  }
 }

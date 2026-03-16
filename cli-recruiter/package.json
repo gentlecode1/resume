@@ -1,0 +1,15 @@
+{
+  "name": "ask-javier",
+  "version": "0.1.0",
+  "description": "Ask Javier anything — AI agent backed by real code knowledge",
+  "type": "module",
+  "bin": {
+    "ask-javier": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": ["portfolio", "ai", "agent", "recruiter"],
+  "author": "Javier Jiménez de Frutos",
+  "license": "MIT"
+}
