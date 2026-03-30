@@ -1,6 +1,8 @@
-# macOS
-.DS_Store
-
-# Editor
-.vscode/
-.idea/
+node_modules/
+worker/
+cli-recruiter/
+indexer/
+PLAN.md
+.wrangler/
+chunks.json
+.env
