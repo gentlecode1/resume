@@ -4,3 +4,15 @@
 # Editor
 .vscode/
 .idea/
+
+# Dependencies
+node_modules/
+
+# Agent MVP (separate branch)
+worker/
+cli-recruiter/
+indexer/
+PLAN.md
+.wrangler/
+chunks.json
+.env
