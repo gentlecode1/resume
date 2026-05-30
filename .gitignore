@@ -1,5 +1,18 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Dependencies
 node_modules/
-dist/
+
+# Agent MVP (separate branch)
+worker/
+cli-recruiter/
+indexer/
+PLAN.md
 .wrangler/
 chunks.json
 .env

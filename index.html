@@ -10,96 +10,80 @@
 
 <body>
     <main role="main" aria-labelledby="cv-title">
-        <!-- Example accessible section structure -->
         <section aria-labelledby="about-me">
             <header style="display: flex; align-items: center; gap: 1rem;">
                 <h1 id="cv-title">Javier Jiménez de Frutos</h1>
                 <a href="mailto:jimenezdefrutos@gmail.com">jimenezdefrutos at gmail dot com</a>
                 <a href="https://github.com/gentlecode1" target="_blank">@gentlecode1</a>
             </header>
-            <p>Technical leader with 8 years of experience, based in Spain. I design the abstractions that
-                connect business domain to user interface — general enough to keep the product consistent, elegant,
-                and simple. I shape architecture from infrastructure to domain modeling, lead teams, and leverage AI
-                to amplify execution, always focusing on what matters: understanding the domain, the user, and
-                the right decisions to bridge both.</p>
+            <p>Technical lead with 8 years of shipping software across the full stack. My intent is always
+                to simplify — understanding the base technology and leveraging native platform capabilities
+                over unnecessary abstractions. I think from the product, not just the code — collaborating
+                with UX and business to shape what gets built, not only how. I push to automate everything
+                — from code generation to testing to delivery — using AI agents, CI/CD pipelines, and
+                infrastructure-as-code to ship quality products as efficiently as possible. Building towards
+                fully autonomous orchestrated agent pipelines across multiple stacks (.NET/C#, TypeScript,
+                Angular, Python).</p>
         </section>
         <section aria-labelledby="experience">
             <h2 id="experience">Experience</h2>
             <article aria-labelledby="youforce">
                 <h3 id="youforce">Technical Lead at YouForce by Visma (January 2025 - Present)</h3>
-                <p>Frontend technical lead and architect in a startup-like environment with end-to-end product
-                    ownership. Owner and final responsible for the <strong>Home</strong> Angular application and the
-                    <strong>navigation-bar</strong> web component — shared across all YouForce modules.</p>
-                <p><strong>Architecture & ownership:</strong></p>
                 <ul>
-                    <li>Refactored legacy Angular application to modern <strong>zoneless architecture</strong> with
-                        <strong>Signals</strong>, reducing complexity and improving runtime performance.</li>
-                    <li>Architected the <strong>microfrontend system</strong> — building cross-module
-                        <strong>web components</strong> with <strong>Stencil</strong> and <strong>Shadow DOM</strong>
-                        for style encapsulation and independent deployments.</li>
-                    <li>Define <strong>state management design patterns</strong> following a
-                        <strong>functional approach</strong>, enabling <strong>generative development</strong>
-                        with <strong>TDD</strong> — making state predictable, testable, and easy to evolve.</li>
-                    <li>Leading the creation of the <strong>YouForce CSS design system library</strong> — a shared
-                        library that implements the design system for the entire platform, ensuring visual consistency
-                        across all modules and teams.</li>
-                </ul>
-                <p><strong>Product & UX collaboration:</strong></p>
-                <ul>
-                    <li>Collaborate with UX to identify gaps and propose solutions — focusing on <strong>general,
-                        consistent patterns</strong> that cover all cases rather than ad-hoc fixes, resulting in
-                        better user experience and simpler code with fewer hidden edge cases.</li>
-                </ul>
-                <p><strong>Backend & system design:</strong></p>
-                <ul>
-                    <li>Develop <strong>RESTful APIs</strong> with <strong>.NET</strong> and collaborate on
-                        <strong>domain design</strong> following <strong>DDD principles</strong>.</li>
-                    <li>Collaborate on system design for <strong>massive data processing</strong> — contributing to
-                        decisions on microservices vs. monolithic architecture, relational vs. non-relational
-                        databases, message queues, distributed systems, and concurrency management.</li>
-                </ul>
-                <p><strong>AI & team productivity:</strong></p>
-                <ul>
-                    <li>Coordinate <strong>AI agents</strong> for application development and delivery,
-                        integrating them into team workflows to accelerate feature development.</li>
-                </ul>
-                <p><strong>Infrastructure & quality:</strong></p>
-                <ul>
-                    <li>Drive testing strategy migration: <strong>Jasmine/Selenium</strong> →
-                        <strong>Vitest/Playwright</strong>.</li>
-                    <li>Collaborate on infrastructure using <strong>Docker</strong>, <strong>Kubernetes</strong>,
-                        and <strong>Azure Cloud</strong>; implement <strong>CI/CD</strong> with
-                        <strong>Terraform</strong>.</li>
-                    <li>Design monitoring and alerting with <strong>Grafana</strong> and
-                        <strong>Azure Monitor</strong>.</li>
+                    <li>Took ownership of a 6-person team and shaped product direction end-to-end across
+                        Angular/TypeScript and .NET (C#) stacks — identified UX gaps, proposed consistent
+                        patterns, and aligned technical decisions with business goals.</li>
+                    <li>Adopted Claude as primary development tool — wrote structured agent instruction files
+                        (CLAUDE.md) and prompt architectures that reliably produce production-ready code.</li>
+                    <li>Created the YouForce CSS design system library from scratch — now in alpha and adopted
+                        as standard for all YouForce teams, with all code generated by Claude through structured
+                        agent instructions.</li>
+                    <li>Built and iterated on agent instruction sets that enforce coding standards, architectural
+                        patterns, and domain constraints — working towards fully autonomous orchestrated agent
+                        pipelines.</li>
+                    <li>Architected the microfrontend system with Stencil web components and Shadow DOM — the
+                        navigation-bar web component is now consumed by every module across the YouForce
+                        platform.</li>
+                    <li>Led a complete refactor of a legacy Angular application to modern reactive and functional
+                        patterns — first with RxJS declarative streams, now migrating to Signals.</li>
+                    <li>Designed the CI/CD pipeline architecture: GitHub Actions and Azure DevOps workflows,
+                        Terraform infrastructure-as-code, automated build → test → deploy with environment
+                        promotion.</li>
+                    <li>Diagnosed and resolved agent failures across prompt issues, tool configurations, build
+                        pipeline errors, and sandbox permissions.</li>
+                    <li>Contributed to system design for massive data processing — microservices, databases,
+                        message queues, distributed systems.</li>
+                    <li>Set up and operate containerized infrastructure: Docker, Kubernetes on Azure Cloud, with
+                        monitoring and alerting via Grafana and Azure Monitor.</li>
                 </ul>
             </article>
             <article aria-labelledby="ilitia">
                 <h3 id="ilitia">Angular Front-End Architect & Developer at Ilitia Technologies (September 2021 -
                     December 2024)</h3>
-                <p>Consultancy delivering Angular applications from scratch for clients across different industries.
-                    Progressed from developer to architect, owning technical decisions from project inception.</p>
                 <ul>
-                    <li>Designed application architectures from the ground up for each client, choosing the right
-                        patterns for state management (<strong>NgRx</strong>), authentication
-                        (<strong>OAuth 2.0</strong>), and component structure (<strong>standalone components</strong>)
-                        based on project needs.</li>
-                    <li>Applied <strong>reactive and functional programming</strong> with <strong>RxJS</strong> and
-                        <strong>OnPush</strong> change detection to build performant, maintainable codebases.</li>
-                    <li>Drove <strong>performance optimization</strong> — minimizing bundle size, improving initial
-                        load times, and implementing caching strategies through HTTP and RxJS.</li>
-                    <li>Built responsive, accessible interfaces with <strong>Angular Material</strong>,
-                        <strong>TypeScript</strong>, and modern CSS layout techniques.</li>
+                    <li>Progressed from developer to technical lead and architect at a consultancy delivering
+                        applications from scratch across industries.</li>
+                    <li>Built a KPI dashboard and report wizard frontend from scratch on top of a generic API —
+                        Angular with reactive/declarative patterns (RxJS, OnPush).</li>
+                    <li>Developed a Python + Playwright background service that converts web reports to PDF and
+                        delivers them via email — solved the challenge of generating chart images for scalable
+                        reports (hundreds of pages) by orchestrating batch processing to control memory
+                        usage.</li>
+                    <li>Developed Python (FastAPI) backend services — REST API design, async endpoints,
+                        integration with Angular frontends.</li>
+                    <li>Defined application architectures from project inception: state management (NgRx),
+                        authentication (OAuth 2.0), standalone component structure.</li>
+                    <li>Built automated CI/CD pipelines and optimized application performance: bundle size, load
+                        times, caching strategies.</li>
                 </ul>
             </article>
             <article aria-labelledby="solutio">
                 <h3 id="solutio">Angular Front-End Developer at Solutio (September 2018 - August 2021)</h3>
                 <ul>
-                    <li>Developed <strong>Angular</strong> single-page applications with <strong>TypeScript</strong>,
-                        implementing authentication flows with <strong>MSAL</strong> and
-                        <strong>Microsoft Entra ID</strong>.</li>
-                    <li>Created and maintained <strong>Azure DevOps CI pipelines</strong> to automate build and
-                        deployment across environments.</li>
+                    <li>Developed Angular SPAs with TypeScript across multiple client projects.</li>
+                    <li>Authentication flows with MSAL and Microsoft Entra ID.</li>
+                    <li>Created and maintained Azure DevOps CI/CD pipelines — first experience designing build
+                        and delivery automation.</li>
                 </ul>
             </article>
         </section>
